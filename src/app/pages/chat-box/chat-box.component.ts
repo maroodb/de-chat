@@ -5,6 +5,7 @@ import {MessagingService} from '../../core/serivces/messaging/messaging.service'
 import { Base64 } from 'js-base64';
 import {Message} from '../../core/models/Message';
 import {ObsererService} from '../../core/serivces/commons/utils/obserer.service';
+import {MessageDao} from '../../core/dao/message.dao';
 
 @Component({
     selector: 'app-chat-box',
@@ -21,7 +22,9 @@ export class ChatBoxComponent implements OnInit {
     messageToSend;
 
     observerService: ObsererService;
-    constructor(private messagingService: MessagingService,  private zone: NgZone) {
+    constructor(private messagingService: MessagingService,
+                private messageDao: MessageDao,
+                private zone: NgZone) {
         this.sharedMemory = SharedMemory.getInstance();
         this.observerService = ObsererService.getInstance();
     }
@@ -32,6 +35,8 @@ export class ChatBoxComponent implements OnInit {
         this.messageToSend = '';
         this.listenForMessage();
 
+        this.messageDao.findAll()
+            .then(console.log)
     }
 
     ionViewWillEnter() {
@@ -43,6 +48,7 @@ export class ChatBoxComponent implements OnInit {
         message.owner = true;
         message.content = this.messageToSend;
 
+        this.messageDao.addMessage(this.messageToSend).then(console.log).catch(console.log)
         const messageEncoded = Base64.encode(this.messageToSend);
         this.messagingService.sendMessageTo(this.currentContact.peerId, messageEncoded)
             .then(done => {

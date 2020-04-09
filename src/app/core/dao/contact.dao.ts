@@ -2,30 +2,38 @@ import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
 import {Contact} from '../entities/Contact';
 import {STORAGE_KEYS} from '../serivces/commons/constants/STORAGE_KEYS';
+import {getRepository, Repository} from 'typeorm';
+import {Message} from '../entities/Message';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ContactDao {
 
+    contactRepository: Repository<Contact>;
     constructor(private storage: Storage) {
-
+        this.contactRepository = getRepository('contact') as Repository<Contact>;
     }
 
     addContact(contact: Contact): Promise<any> {
-        const contactPeerId = contact.peerId;
 
         return new Promise<any>((resolve, reject) => {
-            this.storage.set(contactPeerId, contact)
-                .then(inserted => {
-                    this.insertContactKey(contactPeerId)
-                        .then(done => {
-                            resolve(true)
-                        })
-                        .catch(reject)
+
+            this.contactRepository.find({where: {peerId: contact.peerId}})
+                .then(contacts => {
+                    if(contacts && contacts.length) {
+                        reject(new Error('Peer already exist.'))
+                    } else {
+                        this.contactRepository.save(contact)
+                            .then(resolve)
+                            .catch(reject)
+                    }
                 })
-                .catch(reject)
         })
+    }
+
+    public findAll(): Promise<Contact[]> {
+        return this.contactRepository.find();
     }
 
     findAllContacts(): Promise<Contact[]> {

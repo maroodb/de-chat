@@ -5,6 +5,7 @@ import {ContactDao} from '../../core/dao/contact.dao';
 import {ToastService} from '../../core/serivces/commons/layout/toast.service';
 import {SharedMemory} from '../../core/serivces/commons/utils/shared.memory';
 import {Router} from '@angular/router';
+import {ChatService} from '../../core/serivces/chat/chat.service';
 
 @Component({
     selector: 'app-contacts',
@@ -18,7 +19,7 @@ export class ContactsComponent implements OnInit {
     constructor(private alertCtrl: AlertController,
                 private toastService: ToastService,
                 private router: Router,
-                private contactDao: ContactDao) {
+                private chatService: ChatService) {
         this.sharedMemory = SharedMemory.getInstance();
     }
 
@@ -84,7 +85,7 @@ export class ContactsComponent implements OnInit {
     }
 
     public addContact(contact: Contact) {
-          this.contactDao.addContact(contact)
+          this.chatService.addContact(contact)
               .then(done => {
                   this.toastService.showSuccessMessage('Your Contact added successfully!')
                   this.getAllContacts();
@@ -107,7 +108,7 @@ export class ContactsComponent implements OnInit {
     }
 
     public getAllContacts() {
-        this.contactDao.findAllContacts()
+        this.chatService.findAllContacts()
             .then(contacts => {
                 this.contacts = contacts;
                 console.log(contacts)

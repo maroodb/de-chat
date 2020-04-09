@@ -6,6 +6,10 @@ import {DeviceService} from './serivces/device/device.service';
 import {SpinnerService} from './serivces/commons/layout/spinner.service';
 import {ToastService} from './serivces/commons/layout/toast.service';
 import {ContactDao} from './dao/contact.dao';
+import {DbConnectionService} from './connection/db.connection.service';
+import {MessageDao} from './dao/message.dao';
+import {ChatService} from './serivces/chat/chat.service';
+
 
 
 @NgModule({
@@ -14,12 +18,17 @@ import {ContactDao} from './dao/contact.dao';
         CommonModule,
     ],
     providers: [
+        DbConnectionService,
         WebRtcService,
         MessagingService,
         DeviceService,
         SpinnerService,
         ToastService,
-        ContactDao
+        ChatService,
+
+
+        ContactDao,
+        MessageDao
     ]
 })
 export class DeChatCoreModule {
