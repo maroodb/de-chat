@@ -1,0 +1,34 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>De-Chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+
+<ion-grid>
+  <ion-row>
+    <ion-col></ion-col>
+    <ion-col>
+      <div class="ion-text-center" (click)="getPeerID()">
+        <ion-text color="primary">
+          <h2>De-Chat</h2>
+        </ion-text>
+
+        Decentralized Chat application: Encrypted peer-peer communication
+        Enjoy!
+      </div>
+      <qrcode [qrdata]="peerId" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+      <div class="ion-text-center">
+        <h3>Your ID: {{peerId}}</h3>
+
+      </div>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+</ion-grid>
+
+
+
+
+</ion-content>

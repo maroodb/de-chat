@@ -1,0 +1,72 @@
+ion-content ion-toolbar {
+  --background: translucent;
+}
+.container {
+  padding-top: 4%;
+}
+
+.peer-id {
+  width: 90%;
+}
+
+.partner-chip {
+  --background	: #3a7be0;
+}
+
+.device-chip {
+
+}
+
+.device-message {
+  padding-left: 1%;
+ }
+
+.partner-message {
+
+}
+.messages-box {
+
+
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.message-compose {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+}
+
+
+page-home {
+
+  .scroll-content {
+
+  }
+
+  textarea {
+    width: calc(100% - 20px);
+    margin-left: 10px;
+    background-color: #fff;
+    font-size: 1.2em;
+    resize: none;
+    border: none;
+  }
+
+
+
+  .chat-bubble {
+
+    width: 65%;
+    overflow: hidden;
+
+  }
+
+  .chat-message {
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    white-space: normal;
+  }
+
+}

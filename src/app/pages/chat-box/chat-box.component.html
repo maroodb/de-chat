@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-title>{{currentContact.name}}</ion-title>
+        <ion-buttons slot="primary">
+            <ion-button>
+                <ion-icon color="primary" slot="icon-only" name="call"></ion-icon>
+            </ion-button>
+            <ion-button>
+                <ion-icon color="danger" slot="icon-only" name="videocam"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+
+    <div class="chat-container">
+
+        <div class="messages-box">
+
+            <ion-item *ngFor="let message of messages" lines="none">
+
+                <ion-chip *ngIf="message.owner" slot="end" class="partner-chip">
+                    <ion-text color="light">{{message.content}}</ion-text>
+
+                </ion-chip>
+                <ion-chip *ngIf="!message.owner" slot="start" >
+                    <ion-text>{{message.content}}</ion-text>
+
+                </ion-chip>
+
+            </ion-item>
+
+
+           <!-- <p class="ion-text-end ion-float-left chat-bubble">
+                dddfggggggggggggggggggggg gfg ;fdlksdkjfkdsjfdlk jlkjhlkjflkrjlkrjlk jlk jlkrjkerj
+            </p>-->
+        </div>
+
+
+    </div>
+
+</ion-content>
+<ion-footer class="ion-no-border">
+
+    <ion-toolbar class="input-toolbar">
+        <ion-input (click) = "hideEmojiMenu()" class="msg-input" [(ngModel)]="messageToSend" spellcheck="true"
+                   placeholder="Write a message.." (keyup.enter)="sendMessage()">
+        </ion-input>
+   </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="toggleEmojiMenu()">
+                <ion-icon color="primary" slot="icon-only" name="happy"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="sendMessage()">
+                <ion-icon slot="icon-only" name="send"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <ion-toolbar *ngIf="showEmojiMenu">
+        <div class="emoji-container">
+            <emoji-mart [showPreview]="false" [enableSearch]="false" (emojiClick)="addEmoji($event)"></emoji-mart>
+        </div>
+    </ion-toolbar>
+
+
+</ion-footer>

@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Contacts
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-toolbar>
+    <ion-title>
+        Contact List
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentAddContact()">
+        <ion-icon size="large" color="primary" slot="start" name="add-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-list>
+    <ion-list-header>
+      Last added
+    </ion-list-header>
+
+    <ion-item *ngFor="let contact of contacts" button (click)="chatWith(contact)">
+      <ion-avatar slot="start">
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{contact.name}}</h2>
+        <h3>ID: {{contact.peerId}}</h3>
+      </ion-label>
+
+    </ion-item>
+
+
+
+
+
+
+  </ion-list>
+
+</ion-content>

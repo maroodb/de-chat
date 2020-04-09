@@ -1,0 +1,25 @@
+.partner-chip {
+  --background	: #3a7be0;
+}
+.msg-input {
+   width: 100% !important;
+  --background: #F7F7F7;
+}
+
+.input-toolbar {
+  width: 100%;
+}
+
+.emoji-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.chat-bubble {
+  background-color: #ff5b71;
+  width: 60%;
+  position: absolute;
+
+}
