@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {CallService} from '../../core/serivces/messaging/call.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  constructor(private callService: CallService ) {
+    this.callService.startListeningForCall();
+
+
+  }
 
 }

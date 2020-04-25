@@ -36,6 +36,17 @@ export class ContactDao {
         return this.contactRepository.find();
     }
 
+    public findContactByPeerId(peerId: string): Promise<Contact> {
+
+        return new Promise<Contact>((resolve, reject) => {
+            this.contactRepository.findOne({ peerId: peerId })
+                .then(contact => {
+                    resolve(contact)
+                })
+                .catch(reject)
+        })
+    }
+
     findAllContacts(): Promise<Contact[]> {
 
         return new Promise<Contact[]>((resolve, reject) => {

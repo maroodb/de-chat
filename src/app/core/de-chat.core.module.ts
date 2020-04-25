@@ -9,7 +9,7 @@ import {ContactDao} from './dao/contact.dao';
 import {DbConnectionService} from './connection/db.connection.service';
 import {MessageDao} from './dao/message.dao';
 import {ChatService} from './serivces/chat/chat.service';
-
+import {CallService} from './serivces/messaging/call.service';
 
 
 @NgModule({
@@ -25,6 +25,7 @@ import {ChatService} from './serivces/chat/chat.service';
         SpinnerService,
         ToastService,
         ChatService,
+        CallService,
 
 
         ContactDao,

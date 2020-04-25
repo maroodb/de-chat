@@ -3,7 +3,7 @@ import {MessagingService} from '../../core/serivces/messaging/messaging.service'
 import {ToastService} from '../../core/serivces/commons/layout/toast.service';
 import {SpinnerService} from '../../core/serivces/commons/layout/spinner.service';
 import {ObsererService} from '../../core/serivces/commons/utils/obserer.service';
-import {Message} from '../../core/models/Message';
+import {MessageDTO} from '../../core/dto/MessageDTO';
 import { Base64 } from 'js-base64';
 @Component({
     selector: 'app-tab1',
@@ -18,7 +18,7 @@ export class ChatPage implements OnInit {
     myId;
     isConnected = false;
     receiverId;
-    messages: Message [];
+    messages: MessageDTO [];
     observerService: ObsererService;
     constructor(private messagingService: MessagingService,
                 private spinnerService: SpinnerService,
@@ -70,7 +70,7 @@ export class ChatPage implements OnInit {
         if(!this.isValidMessage()) {
             return;
         }
-        const message = new Message();
+        const message = new MessageDTO();
         message.peerId = this.myId;
         message.content = this.messageToSend;
         this.messages.push(message);

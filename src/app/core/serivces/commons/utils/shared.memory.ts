@@ -24,4 +24,11 @@ export class SharedMemory {
     getCurrentContact(): Contact {
         return this.data.get('CC') || new Contact();
     }
+
+    putCallIncome(contact: Contact) {
+        this.data.set('CALL', contact);
+    }
+    getCallIncome() {
+        return this.data.get('CALL');
+    }
 }

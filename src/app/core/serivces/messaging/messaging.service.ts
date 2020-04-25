@@ -1,35 +1,38 @@
 import {Injectable} from '@angular/core';
 import {WebRtcService} from '../network/web.rtc.service';
-import {NETWORK} from '../commons/constants/NETWORK';
+import { Base64 } from 'js-base64';
+
+import {ChatService} from '../chat/chat.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MessagingService {
 
-    constructor(private webRtcService: WebRtcService) {
+    constructor(private webRtcService: WebRtcService, private chatService: ChatService) {
 
     }
 
-    public sendMessageTo(peerId, message): Promise<any> {
 
-        console.log(`send message to: ${peerId}`);
-        const conn = this.webRtcService.getConnectionTo(peerId);
+    public sendMessageTo(peerId, messageContent): Promise<any> {
 
-        console.log(conn)
+        const messageEncoded = Base64.encode(messageContent);
+
+
+
 
         return new Promise<any>(((resolve, reject) => {
-
-            const timeoutCallback = setTimeout(() => {
-                reject(new Error(`Connection timeout to peer: ${peerId}`));
-            }, NETWORK.CONN_TIMEOUT);
-
-            conn.on('open', function () {
-                console.log(conn);
-                conn.send(message);
-                resolve(conn.id);
-                clearTimeout(timeoutCallback);
-            });
+            this.webRtcService.getDataConnectionTo(peerId)
+                .then(conn => {
+                    conn.send(messageEncoded);
+                    this.chatService.addMessageToPeer(messageEncoded, peerId)
+                        .then(resolve)
+                        .catch(reject);
+                })
+                .catch(error => {
+                    console.log(`Send Error: ${error.toString()}`);
+                    reject(error)
+                })
 
 
         }))
@@ -41,6 +44,6 @@ export class MessagingService {
     }
 
     public openConnectionWith(peerId: string) {
-        return this.webRtcService.openConnectionWith(peerId);
+        return this.webRtcService.openDataConnectionWith(peerId);
     }
 }

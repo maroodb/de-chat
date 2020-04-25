@@ -9,23 +9,30 @@ import {TabsPage} from './tabs.page';
 import {ContactsComponent} from '../contacts/contacts.component';
 import {InboxComponent} from '../inbox/inbox.component';
 import {ChatBoxComponent} from '../chat-box/chat-box.component';
-import { PickerModule } from '@ctrl/ngx-emoji-mart';
-import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import {HomeComponent} from '../home/home.component';
 import {QRCodeModule} from 'angularx-qrcode';
+import {CallComponent} from '../call/call.component';
+import {ChatBubbleComponent} from '../chat-box/chat-bubble/chat-bubble.component';
+import {MaterialModule} from '../../material.module';
 
 @NgModule({
+    entryComponents: [ChatBubbleComponent],
     imports: [
         IonicModule,
         CommonModule,
         FormsModule,
-        PickerModule,
-        EmojiModule,
+        MaterialModule,
         QRCodeModule,
         TabsPageRoutingModule,
 
     ],
-    declarations: [TabsPage, ContactsComponent, InboxComponent, ChatBoxComponent, HomeComponent],
+    declarations: [TabsPage,
+        ContactsComponent,
+        InboxComponent,
+        ChatBoxComponent,
+        CallComponent,
+        ChatBubbleComponent,
+        HomeComponent],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class TabsPageModule {

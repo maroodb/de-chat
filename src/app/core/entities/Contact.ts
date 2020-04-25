@@ -15,9 +15,8 @@ export class Contact {
     @Column()
     avatar: string;
 
-    @OneToMany(type => Message, message => message.sender)
-    sentMessages: Message[];
 
-    @OneToMany(type => Message, message => message.sender)
-    receivedMessages: Message[]
+
+    @OneToMany(type => Message, message => message.contact)
+    messages: Message[];
 }

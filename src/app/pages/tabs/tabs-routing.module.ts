@@ -5,6 +5,7 @@ import {ContactsComponent} from '../contacts/contacts.component';
 import {InboxComponent} from '../inbox/inbox.component';
 import {ChatBoxComponent} from '../chat-box/chat-box.component';
 import {HomeComponent} from '../home/home.component';
+import {CallComponent} from '../call/call.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
         {
             path: 'home',
             component: HomeComponent
+        },
+        {
+            path: 'call',
+            component: CallComponent
         },
       {
         path: 'tab2',

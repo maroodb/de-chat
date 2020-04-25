@@ -2,9 +2,8 @@ import {Injectable} from '@angular/core';
 import {DeviceService} from '../device/device.service';
 import {NETWORK} from '../commons/constants/NETWORK';
 import {ObsererService} from '../commons/utils/obserer.service';
-import {Message} from '../../models/Message';
+import {MessageDTO} from '../../dto/MessageDTO';
 
-const CONNECTION_TIMEOUT = 6000;
 declare var Peer: any;
 
 @Injectable({
@@ -14,10 +13,14 @@ export class WebRtcService {
 
     myPeer;
     connections: Map<string, any>;
+    calls: Map<string, any>;
+
     observerService: ObsererService;
+
     constructor(private deviceService: DeviceService) {
         this.initPeer();
         this.connections = new Map<string, any>();
+        this.calls =  new Map<string, any>();
         this.observerService = ObsererService.getInstance();
 
     }
@@ -41,24 +44,88 @@ export class WebRtcService {
     }
 
     public getPeerId() {
-        return this.myPeer? this.myPeer.id : '';
+        return this.myPeer ? this.myPeer.id : '';
     }
 
     private connectTo(peerId: string) {
         const conn = this.myPeer.connect(peerId);
         this.connections.set(peerId, conn);
+        return conn;
     }
 
-    public getConnectionTo(peerId: string) {
 
-            this.connectTo(peerId);
-            return this.connections.get(peerId);
+    public call(peerId: string, stream: any) {
+
+        return new Promise<any>((resolve, reject) => {
+
+            const timeoutCallback = setTimeout(() => {
+                reject(new Error(`Connection timeout to peer :${peerId}`));
+            }, NETWORK.CALL_TIMEOUT);
+
+            const call = this.myPeer.call(peerId, stream);
+            console.log(call)
+            call.on('stream', (remoteStream) => {
+                clearTimeout(timeoutCallback);
+                resolve(remoteStream);
+            });
+        });
+
+
 
     }
 
-    public openConnectionWith(peerId: string): Promise<any> {
+    public answerCall(peerId: string, stream: any): Promise<any> {
 
-        const conn = this.getConnectionTo(peerId);
+        const call = this.calls.get(peerId);
+
+        return new Promise<any>((resolve, reject) => {
+
+            const timeoutCallback = setTimeout(() => {
+                reject(new Error(`Call timeout to peer :${peerId}`));
+            }, NETWORK.CALL_TIMEOUT);
+
+            if(call) {
+                call.answer(stream);
+                call.on('stream', (remoteStream) => {
+                    console.log('new stream')
+                    clearTimeout(timeoutCallback);
+                    resolve(remoteStream);
+                });
+            }
+
+        })
+    }
+
+    public getDataConnectionTo(peerId: string): Promise<any> {
+
+        return new Promise((resolve, reject) => {
+            if (this.connections.has(peerId)) {
+                const conn = this.connections.get(peerId);
+                if (conn && conn._open) {
+                    console.log('connection is open');
+                    resolve(conn);
+                } else {
+                    console.log('connection is close');
+                    this.openDataConnectionWith(peerId)
+                        .then(resolve)
+                        .catch(reject);
+                }
+            } else {
+                console.log('connection is new');
+                this.openDataConnectionWith(peerId)
+                    .then(resolve)
+                    .catch(reject);
+            }
+
+        });
+
+
+    }
+
+    public openDataConnectionWith(peerId: string): Promise<any> {
+
+        const conn = this.connectTo(peerId);
+
         return new Promise<any>((resolve, reject) => {
 
             const timeoutCallback = setTimeout(() => {
@@ -66,13 +133,13 @@ export class WebRtcService {
             }, NETWORK.CONN_TIMEOUT);
 
             conn.on('open', function () {
-                conn.send(`I want to chat with you!`)
-                 resolve(conn.id);
-                 clearTimeout(timeoutCallback);
+                clearTimeout(timeoutCallback);
+                resolve(conn);
+
             });
 
 
-        })
+        });
     }
 
     startNetworkListening() {
@@ -81,14 +148,23 @@ export class WebRtcService {
 
             conn.on('data', function (data) {
 
-                const message = new Message();
+                const message = new MessageDTO();
                 message.peerId = conn.peer;
                 message.content = data;
-                message.owner = false;
+
 
                 _this.observerService.pushMessage(message);
-                console.log(`New message: ${data}`);
+                console.log(`New message: ${data} from: ${conn.peer}`);
             });
         });
+
+        this.myPeer.on('call', function (call) {
+
+            console.log(`Income call from ${call.peer}`);
+            const peerId = call.peer;
+            _this.calls.set(peerId, call);
+            console.log(call);
+            _this.observerService.incomeCall(peerId);
+        })
     }
 }

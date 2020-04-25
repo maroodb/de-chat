@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {Contact} from './Contact';
 
 @Entity('message')
@@ -10,11 +10,11 @@ export class Message {
     content: string;
     @Column({default: false})
     seen: boolean;
+    @Column({nullable: true})
+    sent: boolean;
 
-    @ManyToOne(type => Contact, sender => sender.sentMessages)
-    sender: Contact;
-
-    @ManyToOne(type => Contact, sender => sender.receivedMessages)
-    receiver: Contact;
-
+    @CreateDateColumn()
+    createdAt: Date;
+    @ManyToOne(type => Contact, contact => contact.messages)
+    contact: Contact;
 }

@@ -9,17 +9,33 @@ import {getRepository, Repository} from 'typeorm';
 export class MessageDao {
 
     messageRepository: Repository<Message>;
-    constructor(private storage: Storage){
+
+    constructor(private storage: Storage) {
         this.messageRepository = getRepository('message') as Repository<Message>;
     }
 
-    public addMessage(conetent: string): Promise<any> {
+    public save(message: Message): Promise<any> {
+        return this.messageRepository.save(message);
+    }
+
+    public addMessage(content: string): Promise<Message> {
         const msg = new Message();
-        msg.content = conetent;
+        msg.content = content;
         return this.messageRepository.save(msg);
     }
 
-    findAll(): Promise<Message[]> {
+
+    public findAll(): Promise<Message[]> {
         return this.messageRepository.find();
+    }
+
+    public findMessageWithContact(id: number) {
+
+       return this.messageRepository.find({ contact: {id: id }});
+
+    }
+
+    public deleteAll() {
+       return this.messageRepository.clear();
     }
 }
