@@ -1,7 +1,0 @@
-{
-  "name": "de-chat",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
-}

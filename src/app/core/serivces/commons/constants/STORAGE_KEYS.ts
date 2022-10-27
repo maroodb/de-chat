@@ -1,5 +1,0 @@
-export const STORAGE_KEYS = {
-
-    DEVICE_UID: 'DEVICE_UID',
-    CONTACT_LIST: 'CONTACT_LIST'
-};
