@@ -1,0 +1,25 @@
+{
+  "name": "de-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maroodb/de-chat.git"
+  },
+  "author": "maroodb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maroodb/de-chat/issues"
+  },
+  "homepage": "https://github.com/maroodb/de-chat#readme",
+  "workspaces": [
+    "core"
+  ],
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  }
+}
