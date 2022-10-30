@@ -1,5 +1,5 @@
 {
-  "name": "dechat",
+  "name": "@dechat/cli",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,18 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/maroodb/de-chat.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "maroodb",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/maroodb/de-chat/issues"
   },
   "homepage": "https://github.com/maroodb/de-chat#readme",
-  "workspaces": [
-    "packages\\core",
-    "packages\\cli"
-  ],
-  "devDependencies": {
-    "typescript": "^4.8.4"
+  "dependencies": {
+    "@dechat/core": "^1.0.0"
   }
 }
