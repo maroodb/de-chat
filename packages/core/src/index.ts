@@ -1,1 +1,3 @@
-console.log("Hello from Core!");
+export function sayHello (): string {
+    return "Hello World";
+}

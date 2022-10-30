@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc --build",
+    "start": "npm run build & node packages/cli/dist/index.js"
   },
   "repository": {
     "type": "git",

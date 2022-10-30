@@ -1,2 +1,2 @@
-import "@dechat/core";
-console.log("Hello from CLI!");
+import {sayHello} from "@dechat/core";
+console.log("Core say: "+ sayHello());
