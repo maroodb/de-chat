@@ -1,3 +1,3 @@
 export function sayHello (): string {
-    return "Hello World";
+    return "Hello World From Core";
 }
